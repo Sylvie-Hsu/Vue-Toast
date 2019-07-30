@@ -39,7 +39,7 @@ export default {
       verticalOffset: 0,
       autoClose: 3000,
       height: 0,
-      visible: false
+      // visible: false
     }
   }
 }

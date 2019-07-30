@@ -15,9 +15,7 @@ export default {
   },
   methods: {
     clickToastify () {
-      this.toast({
-        content: 'this is a toast'
-      })
+      this.$toast.error('annn牛逼')
     }
   }
 }

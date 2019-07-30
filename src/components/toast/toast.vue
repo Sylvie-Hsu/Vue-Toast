@@ -18,16 +18,33 @@ export default {
     btn: {
       type: String,
       default: '关闭'
+    },
+    pattern: {
+      type: String,
+      default: 'success'
     }
   },
   data () {
     return {
-      visible: true
+      verticalOffset: 0,
+      autoClose: 3000,
+      height: 0,
+      visible: false
     }
+  },
+  created () {
+    console.log(this.pattern)
+  },
+  mounted () {
+    this.createTimer()
   },
   computed: {
     style () {
-      return {}
+      return {
+        position: 'fixed',
+        right: '20px',
+        top: `${this.verticalOffset}px`
+      }
     }
   },
   methods: {
@@ -37,9 +54,24 @@ export default {
     afterLeave () {
       this.$emit('closed')
     },
-    afterEnter () {},
-    clearTimer () {},
-    createTimer () {}
+    afterEnter () {
+      this.height = this.$el.offsetHeight
+    },
+    clearTimer () {
+      if (this.timer) {
+        clearTimeout(this.timer)
+      }
+    },
+    createTimer () {
+      if (this.autoClose) {
+        this.timer = setTimeout(() => {
+          this.visible = false
+        }, this.autoClose)
+      }
+    }
+  },
+  beforeDestroy () {
+    this.clearTimer()
   }
 }
 </script>
