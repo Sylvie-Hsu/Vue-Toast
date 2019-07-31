@@ -1,7 +1,9 @@
 <template>
   <div class="hello">
     <h2>{{ msg }}</h2>
-    <button class="toastify" @click="clickToastify">Toast</button>
+    <button class="toastify" @click="clickSuccess">Success</button>
+    <button class="toastify" @click="clickAlert">Alert</button>
+    <button class="toastify" @click="clickError">Error</button>
   </div>
 </template>
 
@@ -14,8 +16,14 @@ export default {
     }
   },
   methods: {
-    clickToastify () {
-      this.$toast.error('annn牛逼')
+    clickSuccess () {
+      this.$toast.success('联系人添加成功')
+    },
+    clickAlert () {
+      this.$toast.alert('服务器繁忙，请稍后再试')
+    },
+    clickError () {
+      this.$toast.error('错误操作提示文本')
     }
   }
 }

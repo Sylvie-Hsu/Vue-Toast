@@ -19,8 +19,8 @@ Toastify.error = function (info) {
   toastInstance(pattern, info)
 }
 
-Toastify.fail = function (info) {
-  const pattern = 'fail'
+Toastify.alert = function (info) {
+  const pattern = 'alert'
   toastInstance(pattern, info)
 }
 

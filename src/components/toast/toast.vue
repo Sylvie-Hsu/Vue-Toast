@@ -1,8 +1,8 @@
 <template>
   <transition name="fade" @after-leave="afterLeave" @after-enter="afterEnter">
-    <div class="toast" :style="style" v-show="visible" @mouseenter="clearTimer" @mouseleave="createTimer">
+    <div class="toast" :class="pattern" :style="style" v-show="visible" @mouseenter="clearTimer" @mouseleave="createTimer">
+      <img class="icon" :src="icon" />
       <span class="content">{{content}}</span>
-      <a class="btn" @click.stop.prevent="handleClose">{{btn}}</a>
     </div>
   </transition>
 </template>
@@ -15,10 +15,6 @@ export default {
       type: String,
       required: true
     },
-    btn: {
-      type: String,
-      default: '关闭'
-    },
     pattern: {
       type: String,
       default: 'success'
@@ -29,7 +25,8 @@ export default {
       verticalOffset: 0,
       autoClose: 3000,
       height: 0,
-      visible: false
+      visible: false,
+      icon: require('../../assets/' + this.pattern + '.svg')
     }
   },
   created () {
@@ -80,22 +77,32 @@ export default {
 .toast {
   display: flex;
   flex-wrap: wrap;
-  background-color: #303030;
-  color: #fff;
   align-items: center;
-  padding: 20px;
+  font-size: 10px;
+  padding: 10px;
   position: fixed;
-  min-width: 280px;
+  min-width: 250px;
   box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .2);
   transition: all .3s;
 }
+.success {
+  background-color: #EDFAF3;
+  color: #005238;
+}
+.error {
+  background-color: #FFF5F2;
+  color: #660E16;
+}
+.alert {
+  background-color:#FFF9E6;
+  color: #592D00;
+}
+.icon {
+  height: 16px;
+  width: 16px;
+  margin: 0 5px 0 5px;
+}
 .content {
   padding: 0;
-}
-.btn {
-  color: #ff4081;
-  padding-left: 24px;
-  margin-left: auto;
-  cursor: pointer;
 }
 </style>
