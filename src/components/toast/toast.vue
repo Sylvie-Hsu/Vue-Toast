@@ -3,6 +3,7 @@
     <div class="toast" :class="pattern" :style="style" v-show="visible" @mouseenter="clearTimer" @mouseleave="createTimer">
       <img class="icon" :src="icon" />
       <span class="content">{{content}}</span>
+      <!-- <a class="btn" @click.stop.prevent="handleClose">-</a> -->
     </div>
   </transition>
 </template>
@@ -23,14 +24,11 @@ export default {
   data () {
     return {
       verticalOffset: 0,
-      autoClose: 3000,
+      autoClose: 5000,
       height: 0,
       visible: false,
       icon: require('../../assets/' + this.pattern + '.svg')
     }
-  },
-  created () {
-    console.log(this.pattern)
   },
   mounted () {
     this.createTimer()
@@ -81,9 +79,10 @@ export default {
   font-size: 10px;
   padding: 10px;
   position: fixed;
-  min-width: 250px;
-  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .2);
-  transition: all .3s;
+  min-width: 200px;
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .1), 0 3px 5px 0 rgba(0, 0, 0, .1);
+  transition: all .5s;
+  border-radius: 2px;
 }
 .success {
   background-color: #EDFAF3;
@@ -104,5 +103,10 @@ export default {
 }
 .content {
   padding: 0;
+}
+.btn {
+  padding-left: 24px;
+  margin-left: auto;
+  cursor: pointer;
 }
 </style>

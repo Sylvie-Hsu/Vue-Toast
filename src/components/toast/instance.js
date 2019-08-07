@@ -30,12 +30,11 @@ function toastInstance (pattern, info) {
     propsData: {
       content: info,
       pattern: pattern
-    },
-    data: {
-      autoClose: 3000
     }
+    // data: {
+    //   autoClose: 3000
+    // }
   })
-  console.log(instance.content)
   const id = `toast_${seed++}`
   instance.id = id
 
@@ -43,13 +42,15 @@ function toastInstance (pattern, info) {
   document.body.appendChild(instance.vm.$el)
   instance.vm.visible = true
 
-  let verticalOffset = 0
-
   instances.forEach(item => {
-    verticalOffset += item.$el.offsetHeight + 16
+    instance.verticalOffset += item.$el.offsetHeight + 16
   })
-  verticalOffset += 16
-  instance.verticalOffset = verticalOffset
+
+  setTimeout(() => {
+    instance.verticalOffset += 16
+    return 0
+  }, 3)
+
   instance.vm.$on('closed', () => {
     removeInstance(instance)
     document.body.removeChild(instance.vm.$el)
@@ -64,6 +65,11 @@ function toastInstance (pattern, info) {
 }
 
 const removeInstance = (instance) => {
+  setTimeout(() => {
+    instance.verticalOffset -= 16
+    return 0
+  }, 3)
+
   if (!instance) return
   let len = instances.length
   const index = instances.findIndex(item => {
