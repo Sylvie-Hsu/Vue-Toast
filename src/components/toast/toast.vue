@@ -2,7 +2,9 @@
   <transition name="fade" @after-leave="afterLeave" @after-enter="afterEnter">
     <div class="toast" :class="pattern" :style="style" v-show="visible" @mouseenter="clearTimer" @mouseleave="createTimer">
       <img class="icon" :src="icon" />
-      <span class="content">{{content}}</span>
+      <slot>
+        <span class="content" v-html="content"></span>
+      </slot>
       <!-- <a class="btn" @click.stop.prevent="handleClose">-</a> -->
     </div>
   </transition>
@@ -11,23 +13,14 @@
 <script>
 export default {
   name: 'Toast',
-  props: {
-    content: {
-      type: String,
-      required: true
-    },
-    pattern: {
-      type: String,
-      default: 'success'
-    }
-  },
   data () {
     return {
       verticalOffset: 0,
-      autoClose: 5000,
+      autoClose: 0,
       height: 0,
       visible: false,
-      icon: require('../../assets/' + this.pattern + '.svg')
+      content: '',
+      pattern: 'success'
     }
   },
   mounted () {
@@ -40,6 +33,9 @@ export default {
         right: '20px',
         top: `${this.verticalOffset}px`
       }
+    },
+    icon () {
+      return require('../../assets/' + this.pattern + '.svg')
     }
   },
   methods: {

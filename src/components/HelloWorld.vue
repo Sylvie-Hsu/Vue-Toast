@@ -4,6 +4,7 @@
     <button class="toastify" @click="clickSuccess">Success</button>
     <button class="toastify" @click="clickAlert">Alert</button>
     <button class="toastify" @click="clickError">Error</button>
+    <button class="toastify" @click="clickLink">Link</button>
   </div>
 </template>
 
@@ -24,6 +25,12 @@ export default {
     },
     clickError () {
       this.$toast.error('错误操作提示文本')
+    },
+    clickLink () {
+      // const h = this.$createElement
+      // console.log(h('span', null, 'xxx'))
+      // this.$toast.alert(h('span', null, 'xxx'))
+      this.$toast.alert('请点击查看<a href="https://segmentfault.com/a/1190000011526612?utm_source=tag-newest" target="_blank">详情</a>')
     }
   }
 }

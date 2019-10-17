@@ -1,7 +1,16 @@
 import Vue from 'vue'
 import Component from './toast.vue'
 
-// extend是构造一个组件的语法器：传入参数，返回一个组件
+const hasOwnProperty = Object.prototype.hasOwnProperty
+
+function hasOwn (obj, key) {
+  hasOwnProperty.call(obj, key)
+}
+
+function isVNode (node) {
+  return node !== null && typeof node === 'object' && hasOwn(node, 'componentOptions')
+}
+
 const ToastConstructor = Vue.extend(Component)
 
 let instances = []
@@ -10,31 +19,36 @@ let seed = 1
 const Toastify = () => {}
 
 Toastify.success = function (info) {
-  const pattern = 'success'
-  toastInstance(pattern, info)
+  toastInstance({
+    pattern: 'success',
+    content: info
+  })
 }
 
 Toastify.error = function (info) {
-  const pattern = 'error'
-  toastInstance(pattern, info)
+  toastInstance({
+    pattern: 'error',
+    content: info
+  })
 }
 
 Toastify.alert = function (info) {
-  const pattern = 'alert'
-  toastInstance(pattern, info)
+  toastInstance({
+    pattern: 'alert',
+    content: info
+  })
 }
 
-function toastInstance (pattern, info) {
-  // 实例化组件
+async function toastInstance (options) {
   const instance = new ToastConstructor({
-    propsData: {
-      content: info,
-      pattern: pattern
-    }
-    // data: {
-    //   autoClose: 3000
-    // }
+    data: options
   })
+
+  if (isVNode(options.content)) {
+    instance.$slots.default = [options.content]
+    options.content = 'REPLACEED_BY_VNODE'
+  }
+
   const id = `toast_${seed++}`
   instance.id = id
 
@@ -65,11 +79,6 @@ function toastInstance (pattern, info) {
 }
 
 const removeInstance = (instance) => {
-  setTimeout(() => {
-    instance.verticalOffset -= 16
-    return 0
-  }, 3)
-
   if (!instance) return
   let len = instances.length
   const index = instances.findIndex(item => {
@@ -82,5 +91,12 @@ const removeInstance = (instance) => {
     instances[i].verticalOffset = parseInt(instances[i].verticalOffset - h - 16)
   }
 }
+
+// async function gradualHeight (instance) {
+//   setTimeout(() => {
+//     instance.verticalOffset += 16
+//     return 0
+//   }, 3)
+// }
 
 export default Toastify
